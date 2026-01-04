@@ -32,7 +32,7 @@ function Deals() {
 
 	return (
 		<div className="max-w-7xl mx-auto my-6">
-			<div className="relative bg-blue-950 text-white rounded-2xl px-20 py-8">
+			<div className="relative bg-blue-950 text-white rounded-2xl px-28 py-8">
 				{/* Previous Button */}
 				<button
 					onClick={handlePrevious}
@@ -41,13 +41,13 @@ function Deals() {
 					❮
 				</button>
 
-				<div className="flex items-center justify-between">
-					<div>
+				<div className="flex justify-between items-start">
+					<div className='flex flex-col gap-4 '>
 						<p className="text-3xl font-bold">
 							{`Best Deal Online on ${CapitalizeFirstLetter(currentProduct.category)}`}
 						</p>
-						<p className="text-5xl font-bold my-4">
-							{currentProduct.title}
+						<p className="text-6xl font-bold">
+							{currentProduct.title.toUpperCase()}
 						</p>
 						<p className="text-3xl">
 							{`Up to ${Math.round(currentProduct.discountPercentage)}% OFF`}

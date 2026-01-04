@@ -5,7 +5,9 @@ export const miniBar = {
   offer: "All offers"
 };
 
+import logo from '../img/logo.png'
 export const navBar = {
+  logoImg: {logo},
   logo: "MegaMart",
   search: "Search essentials, groceries and more...",
   signin: "Sign Up/Sign In",
@@ -17,12 +19,15 @@ export const bestDeal ={
   viewAll:"View All"
 }
 
-export const footer ={
+export const footerData ={
   logo:"MegaMart",
   contactUs:"Contact Us",
   whatsapp:"Whats App",
   whatsappNumber:"+1 202-918-2132",
   call:"Call Us",
   phoneNumber:"+1 202-918-2132",
-  downloadApp:"Download App"
+  downloadApp:"Download App",
+  category: "Most Popular Categories",
+  servicesTitle:"Customer Services",
+  services:["Abdout Us","Terms & Conditions","FAQ","Privacy Policy","E-waste Policy","Cancellation & Return Policy"]
 }

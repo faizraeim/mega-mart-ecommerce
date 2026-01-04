@@ -3,10 +3,7 @@ import CapitalizeFirstLetter from '../utils/CapitalizeFirstLetter'
 import { useServerData } from '../utils/ServerData'
 
 function Categories() {
-    const { data: serverData, loading, error } = useServerData()
-
-    if (loading) return <div className="flex space-x-4 max-w-7xl mx-auto border-y border-border py-6">Loading...</div>
-    if (error) return <div className="flex space-x-4 max-w-7xl mx-auto border-y border-border py-6">Error: {error}</div>
+    const {data: serverData, error, loading} = useServerData()
 
     return (
         <div className="flex space-x-4 max-w-7xl mx-auto border-y border-border py-6">

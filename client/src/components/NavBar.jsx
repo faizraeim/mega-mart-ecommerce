@@ -3,6 +3,7 @@ import { CiMenuFries, CiSearch } from "react-icons/ci";
 import { IoIosList } from "react-icons/io";
 import { RxPerson } from "react-icons/rx";
 import { FiShoppingCart } from "react-icons/fi";
+import logo from '../img/logo.png'
 
 function NavBar() {
     return (

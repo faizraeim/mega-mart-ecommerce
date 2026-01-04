@@ -12,7 +12,7 @@ function BeautyDeals() {
     if (error) return <div className="flex space-x-4 max-w-7xl mx-auto border-y border-border py-6">Error: {error}</div>
 
     const bestProducts = serverData.filter(product => product.category === "beauty")
-    console.log(bestProducts)
+    
 
     return (
         <div className="max-w-7xl mx-auto mt-20 text">
