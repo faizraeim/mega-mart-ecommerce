@@ -2,29 +2,29 @@ import { bestDeal } from "../data/data"
 import CapitalizeFirstLetter from "../utils/CapitalizeFirstLetter"
 import { useServerData } from "../utils/ServerData"
 import fallbackImage from "../img/fallback.png"
-import { Link } from "react-router"
 import { SlArrowRight } from "react-icons/sl"
+import { Link } from "react-router-dom"
 
-function FragrancesDeals() {
+
+function ProductCategories({category}) {
     // server data comming for backend handled in custom hook
     const { data: serverData, loading, error } = useServerData()
     // error and loading handling
     if (loading) return <div className="flex space-x-4 max-w-7xl mx-auto border-y border-border py-6">Loading...</div>
     if (error) return <div className="flex space-x-4 max-w-7xl mx-auto border-y border-border py-6">Error: {error}</div>
 
-    const bestProducts = serverData.filter(product => product.category === "fragrances")
-  
+    const bestProducts = serverData.filter(product => product.category === category)
 
     return (
-        <div className="max-w-7xl mx-auto mt-20 text">
+        <div className="max-w-7xl mx-auto mt-20">
             <div className=" flex justify-between  border-b border-border">
-            <p className="text-3xl font-bold text-text border-b-4 pb-4 border-primary" >{bestDeal.grab} <span className="text-primary">{CapitalizeFirstLetter(bestProducts[0].category)}</span></p>
-            <Link to={`/category/${bestProducts[0].category}`} className="flex gap-2 items-center ">View All <span className="text-primary text-sm "> <SlArrowRight /> </span> </Link>
+                <p className="text-3xl font-bold text-text border-b-4 pb-4 border-primary" >{bestDeal.grab} <span className="text-primary">{CapitalizeFirstLetter(bestProducts[0].category)}</span></p>
+                <Link to={`/category/${bestProducts[0].category}`} className="flex gap-2 items-center ">{bestDeal.viewAll}<span className="text-primary text-sm "> <SlArrowRight /> </span> </Link>
             </div>
             <div className="grid grid-cols-5 gap-4 bg-white ">
                 {bestProducts.slice(0,5).map((product) => (
-
-                    <div key={product.id} className="bg-white border-2 border-border hover:border-primary hover:drop-shadow-2xl active:border-primary rounded-2xl mt-12 mb-20 pb-4">
+                    <Link key={product.id} to={`/product/${product.id}`}>
+                    <div className="bg-white border-2 border-border hover:border-primary hover:drop-shadow-2xl active:border-primary rounded-2xl mt-12 pb-4 cursor-pointer">
                         <div className="relative">
                             <img
                                 src={product.images.length > 1 ? product.images[0] : product.images}
@@ -46,6 +46,7 @@ function FragrancesDeals() {
                             <p className=" text-green-600 font-semibold mt-2 border-t border-border pt-2">Save - ${Math.ceil((product.price) * (product.discountPercentage) / 100)}</p>
                         </div>
                     </div>
+                    </Link>
 
                 ))}
             </div>
@@ -53,4 +54,4 @@ function FragrancesDeals() {
     )
 }
 
-export default FragrancesDeals
+export default ProductCategories

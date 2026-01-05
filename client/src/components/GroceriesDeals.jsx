@@ -18,7 +18,7 @@ function GroceriesDeals() {
         <div className="max-w-7xl mx-auto mt-20 text">
             <div className=" flex justify-between  border-b border-border">
                 <p className="text-3xl font-bold text-text border-b-4 pb-4 border-primary" >{bestDeal.grab} <span className="text-primary">{CapitalizeFirstLetter(bestProducts[0].category)}</span></p>
-                <Link to="#" className="flex gap-2 items-center ">View All <span className="text-primary text-sm "> <SlArrowRight /> </span> </Link>
+                <Link to={`/category/${bestProducts[0].category}`} className="flex gap-2 items-center ">View All <span className="text-primary text-sm "> <SlArrowRight /> </span> </Link>
             </div>
             <div className="grid grid-cols-5 gap-4 bg-white ">
                 {bestProducts.slice(0,5).map((product) => (

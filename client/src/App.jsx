@@ -9,6 +9,7 @@ import BeautyDeals from './components/BeautyDeals'
 import FragrancesDeals from './components/FragrancesDeals'
 import GroceriesDeals from './components/GroceriesDeals'
 import Footer from './components/Footer'
+import ProductCategories from './components/ProductCategories'
 
 function App() {
 
@@ -19,10 +20,14 @@ function App() {
         <NavBar />
         <Categories />
         <Deals />
-        <BestDeal />
+        {/* <BestDeal />
         <BeautyDeals />
         <FragrancesDeals/>
-        <GroceriesDeals />
+        <GroceriesDeals /> */}
+        <ProductCategories category="furniture" />
+        <ProductCategories category="beauty" />
+        <ProductCategories category="fragrances" />
+        <ProductCategories category="groceries" />
         <Footer />
       </BrowserRouter>
     </>
