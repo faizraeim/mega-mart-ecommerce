@@ -16,7 +16,7 @@ function Footer() {
 
 
     return (
-        <div className="bg-primary text-white ">
+        <div className="bg-primary text-white mt-20">
             <div className="flex max-w-7xl mx-auto p-16  justify-start">
                 <div className="w-1/4">
                     <div>
