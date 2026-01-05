@@ -115,7 +115,7 @@ function ProductDetail() {
                   <button
                     key={index}
                     onClick={() => setSelectedImageIndex(index)}
-                    className={`flex-shrink-0 border-2 rounded-lg overflow-hidden ${
+                    className={`shrink-0 border-2 rounded-lg overflow-hidden ${
                       selectedImageIndex === index
                         ? "border-primary"
                         : "border-border"
