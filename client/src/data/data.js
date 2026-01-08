@@ -1,3 +1,17 @@
+const  logo = '/assets/MegaMartLogo.png'
+const  logoWithText = '/assets/MegaMartLogoText.png'
+const logoText = '/assets/MegaMartText.png'
+const fallbackImage = '/assets/fallback.png'
+const shoppingIllustration = '/assets/shoppin_illustration.webp'
+
+export const general ={
+  logoIcon: logo,
+  logoWithText:logoWithText,
+  logoText:logoText,
+  fallbackImage :fallbackImage,
+  logoName: "MegaMart",
+
+}
 export const miniBar = {
   greeting: "Welcome to worldwide MegaMart!",
   deliver: "Deliver to 423651",
@@ -5,10 +19,8 @@ export const miniBar = {
   offer: "All offers"
 };
 
-import logo from '../img/logo.png'
+
 export const navBar = {
-  logoImg: {logo},
-  logo: "MegaMart",
   search: "Search essentials, groceries and more...",
   signin: "Sign Up/Sign In",
   cart: "Cart"
@@ -30,4 +42,18 @@ export const footerData ={
   category: "Most Popular Categories",
   servicesTitle:"Customer Services",
   services:["Abdout Us","Terms & Conditions","FAQ","Privacy Policy","E-waste Policy","Cancellation & Return Policy"]
+}
+
+export const signin = {
+  title: "Buy online with MegaMart",
+  subtitle:"MegaMart is a compelete online store having from basic needs to everything you can imagine of.",
+  formTitle:"Sign in to your MegaMart account",
+  email:"Email",
+  password:"Password",
+  forgot:"Forgot your password?",
+  button:"Sign In",
+  keepSignedIn:"Keep me signed in",
+  createAccount:"Create new MegaMart account",
+  termsAccept:"By continuing, you agree to the Terms of Service and Privacy Policy.",
+  shoppingIllustration: shoppingIllustration,
 }

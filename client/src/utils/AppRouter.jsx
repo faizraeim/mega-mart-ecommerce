@@ -4,6 +4,7 @@ import Home from '../pages/Home';
 import CategoryProducts from '../components/CategoryProducts';
 import ProductDetail from '../components/ProductDetail';
 import { useServerData } from './ServerData';
+import Signin from '../pages/Signin';
 
 function AppRouter() {
     const { data: serverData, loading, error } = useServerData()
@@ -21,6 +22,7 @@ function AppRouter() {
                     element={<CategoryProducts category={category} />}
                 />
             ))}
+            <Route path='/signin' element={<Signin />} />
         </Routes>
     );
 }

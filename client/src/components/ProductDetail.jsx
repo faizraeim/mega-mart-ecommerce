@@ -1,14 +1,14 @@
+import { general } from "../data/data";
 import { useParams, Link } from "react-router-dom";
 import NavBar from "./NavBar";
 import Footer from "../pages/Footer";
-import { useServerData } from "../utils/ServerData";
+import { useProduct } from "../utils/ServerData";
 import CapitalizeFirstLetter from "../utils/CapitalizeFirstLetter";
-import fallbackImage from "../img/fallback.png";
 import { useState } from "react";
 
 function ProductDetail() {
   const { id } = useParams();
-  const { data: serverData, loading, error } = useServerData();
+  const { product, loading, error } = useProduct(id);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   // loading & error states
@@ -36,9 +36,6 @@ function ProductDetail() {
     );
   }
 
-  // Find the product by ID
-  const product = serverData.find((p) => p.id === parseInt(id));
-
   if (!product) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -65,8 +62,8 @@ function ProductDetail() {
   const productImages = Array.isArray(product.images)
     ? product.images
     : product.thumbnail
-    ? [product.thumbnail]
-    : [fallbackImage];
+      ? [product.thumbnail]
+      : [general.fallbackImage];
 
   const originalPrice =
     product.price + (product.price * product.discountPercentage) / 100;
@@ -99,10 +96,10 @@ function ProductDetail() {
             {/* Main Image */}
             <div className="bg-white border border-border rounded-2xl overflow-hidden">
               <img
-                src={productImages[selectedImageIndex] || fallbackImage}
+                src={productImages[selectedImageIndex] || general.fallbackImage}
                 alt={product.title}
                 onError={(e) => {
-                  e.currentTarget.src = fallbackImage;
+                  e.currentTarget.src = general.fallbackImage;
                 }}
                 className="w-full h-96 object-contain p-4"
               />
@@ -115,17 +112,16 @@ function ProductDetail() {
                   <button
                     key={index}
                     onClick={() => setSelectedImageIndex(index)}
-                    className={`shrink-0 border-2 rounded-lg overflow-hidden ${
-                      selectedImageIndex === index
+                    className={`shrink-0 border-2 rounded-lg overflow-hidden ${selectedImageIndex === index
                         ? "border-primary"
                         : "border-border"
-                    }`}
+                      }`}
                   >
                     <img
-                      src={image || fallbackImage}
+                      src={image || general.fallbackImage}
                       alt={`${product.title} view ${index + 1}`}
                       onError={(e) => {
-                        e.currentTarget.src = fallbackImage;
+                        e.currentTarget.src = general.fallbackImage;
                       }}
                       className="w-20 h-20 object-contain p-1"
                     />
@@ -154,11 +150,10 @@ function ProductDetail() {
                 </div>
                 <span className="text-light">•</span>
                 <span
-                  className={`font-semibold ${
-                    product.availabilityStatus === "In Stock"
+                  className={`font-semibold ${product.availabilityStatus === "In Stock"
                       ? "text-green-600"
                       : "text-red-600"
-                  }`}
+                    }`}
                 >
                   {product.availabilityStatus}
                 </span>

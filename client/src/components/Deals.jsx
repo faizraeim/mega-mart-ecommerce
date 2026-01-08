@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import fallbackimage from '../img/fallback.png'
+import { general } from '../data/data'
 import CapitalizeFirstLetter from "../utils/CapitalizeFirstLetter"
 import { useServerData } from "../utils/ServerData"
 
@@ -31,12 +31,32 @@ function Deals() {
 	const currentProduct = dealsProducts[currentIndex]
 
 	return (
-		<div className="max-w-7xl mx-auto my-6">
-			<div className="relative bg-blue-950 text-white rounded-2xl px-28 py-8">
-				{/* Previous Button */}
+		<div className="max-w-7xl mx-auto my-10 px-4">
+			<div className="flex items-center justify-between mb-4">
+				<div>
+					<p className="text-primary text-sm font-semibold uppercase tracking-wide">Today’s spotlight</p>
+					<h2 className="text-3xl font-bold text-heading">Best deals across categories</h2>
+					<p className="text-text text-sm">Handpicked offers with big discounts and fast delivery.</p>
+				</div>
+				<div className="hidden sm:flex gap-2">
+					<button
+						onClick={handlePrevious}
+						className="w-10 h-10 rounded-full border border-border text-heading hover:bg-primary hover:text-white transition"
+						aria-label="Previous deal"
+					>❮</button>
+					<button
+						onClick={handleNext}
+						className="w-10 h-10 rounded-full border border-border text-heading hover:bg-primary hover:text-white transition"
+						aria-label="Next deal"
+					>❯</button>
+				</div>
+			</div>
+			<div className="relative bg-blue-950 text-white rounded-3xl px-6 md:px-16 lg:px-24 py-10 shadow-lg overflow-hidden">
+				{/* Previous Button (mobile/overlay) */}
 				<button
 					onClick={handlePrevious}
-					className="absolute -left-12 top-1/2 -translate-y-1/2 bg-bgthree border-8 border-white text-primary w-25 h-25 rounded-full hover:bg-gray-200 transition"
+					className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 text-primary w-10 h-10 rounded-full border border-white hover:bg-white transition"
+					aria-label="Previous deal"
 				>
 					❮
 				</button>
@@ -49,36 +69,39 @@ function Deals() {
 						<p className="text-6xl font-bold">
 							{currentProduct.title.toUpperCase()}
 						</p>
-						<p className="text-3xl">
-							{`Up to ${Math.round(currentProduct.discountPercentage)}% OFF`}
+						<p className="text-3xl flex gap-3 items-center">
+							<span>{`Up to ${Math.round(currentProduct.discountPercentage)}% OFF`}</span>
+							<span className="text-sm bg-white/20 px-3 py-1 rounded-full border border-white/30">{`Stock: ${currentProduct.stock}`}</span>
 						</p>
 					</div>
 					<div>
 						<img
-							src={currentProduct.thumbnail || fallbackimage}
+							src={currentProduct.thumbnail || general.fallbackImage}
 							alt={currentProduct.title}
-							className="w-60 h-60 object-contain"
+							className="w-64 h-64 object-contain drop-shadow-xl"
 						/>
 					</div>
 				</div>
 
-				{/* Next Button */}
+				{/* Next Button (mobile/overlay) */}
 				<button
 					onClick={handleNext}
-					className="absolute -right-12 top-1/2 -translate-y-1/2 bg-bgthree border-8 border-white text-primary w-25 h-25 rounded-full hover:bg-blue-100 transition"
+					className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 text-primary w-10 h-10 rounded-full border border-white hover:bg-white transition"
+					aria-label="Next deal"
 				>
 					❯
 				</button>
 
 
 				{/* Dot Indicators */}
-				<div className="flex justify-start gap-2 mt-6">
+				<div className="flex justify-start gap-2 mt-8">
 					{dealsProducts.map((_, index) => (
 						<button
 							key={index}
 							onClick={() => setCurrentIndex(index)}
-							className={`w-3 h-2 rounded-full transition ${index === currentIndex ? 'bg-white w-6' : 'bg-gray-500'
+							className={`h-2 rounded-full transition ${index === currentIndex ? 'bg-white w-6' : 'bg-white/40 w-2'
 								}`}
+							aria-label={`Go to deal ${index + 1}`}
 						/>
 					))}
 				</div>
