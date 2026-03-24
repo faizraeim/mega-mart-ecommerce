@@ -1,0 +1,41 @@
+
+
+# Server Specific
+server/node_modules
+server/dist
+server/dist-ssr
+server/*.local
+server/logs
+server/*.log
+
+# Editor directories and files
+server/.vscode/*
+server/.idea
+server/.DS_Store
+server/*.suo
+server/*.ntvs*
+server/*.njsproj
+server/*.sln
+server/*.sw?
+
+
+
+# Client Specific
+client/node_modules
+client/dist
+client/dist-ssr
+client/*.local
+
+# Logs
+client/logs
+client/*.log
+
+# Editor directories and files
+client/.vscode/*
+client/.idea
+client/.DS_Store
+client/*.suo
+client/*.ntvs*
+client/*.njsproj
+client/*.sln
+client/*.sw?

@@ -75,6 +75,17 @@ function Footer() {
             </div>
             <div className="text-center text-sm font-light border-t border-white/10 py-6 px-4">
                 <p>&copy; {new Date().getFullYear()} All rights reserved. Reliance Retail Ltd.</p>
+                <p className="mt-2">
+                    Developed by{" "}
+                    <a
+                        href="https://faizraeim.github.io/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white/80 hover:text-white underline font-medium"
+                    >
+                        Faizey
+                    </a>
+                </p>
             </div>
         </div>
     )

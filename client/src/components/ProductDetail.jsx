@@ -1,15 +1,20 @@
 import { general } from "../data/data";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 import Footer from "../pages/Footer";
 import { useProduct } from "../utils/ServerData";
 import CapitalizeFirstLetter from "../utils/CapitalizeFirstLetter";
 import { useState } from "react";
+import { useCart } from "../utils/CartContext";
 
 function ProductDetail() {
   const { id } = useParams();
   const { product, loading, error } = useProduct(id);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   // loading & error states
   if (loading) {
@@ -68,6 +73,17 @@ function ProductDetail() {
   const originalPrice =
     product.price + (product.price * product.discountPercentage) / 100;
   const savings = (product.price * product.discountPercentage) / 100;
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
+
+  const handleBuyNow = () => {
+    addToCart(product, quantity);
+    navigate("/cart");
+  };
 
   return (
     <div className="min-h-screen">
@@ -240,12 +256,49 @@ function ProductDetail() {
               </div>
             )}
 
+            {/* Quantity Selector */}
+            <div className="flex items-center gap-4">
+              <p className="text-sm font-semibold text-heading">Quantity:</p>
+              <div className="flex items-center border border-border rounded-lg">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="px-3 py-2 hover:bg-gray-100 transition"
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  min="1"
+                  max={product.stock}
+                  value={quantity}
+                  onChange={(e) => setQuantity(Math.max(1, Math.min(product.stock, parseInt(e.target.value) || 1)))}
+                  className="w-16 text-center outline-none"
+                />
+                <button
+                  onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                  className="px-3 py-2 hover:bg-gray-100 transition"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
             {/* Action Buttons */}
             <div className="flex gap-4">
-              <button className="flex-1 bg-primary text-white font-semibold py-3 px-6 rounded-full hover:bg-primary/90 transition">
-                Add to Cart
+              <button
+                onClick={handleAddToCart}
+                className={`flex-1 font-semibold py-3 px-6 rounded-full transition ${
+                  added
+                    ? "bg-green-500 text-white"
+                    : "bg-primary text-white hover:bg-primary/90"
+                }`}
+              >
+                {added ? "Added to Cart!" : "Add to Cart"}
               </button>
-              <button className="flex-1 border-2 border-primary text-primary font-semibold py-3 px-6 rounded-full hover:bg-primary/5 transition">
+              <button
+                onClick={handleBuyNow}
+                className="flex-1 border-2 border-primary text-primary font-semibold py-3 px-6 rounded-full hover:bg-primary/5 transition"
+              >
                 Buy Now
               </button>
             </div>

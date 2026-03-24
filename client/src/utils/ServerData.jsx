@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react"
 
-// Fetch all products
+const API_BASE = import.meta.env.VITE_API_URL || "/api"
+
 export function useServerData() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
-    useEffect(() => {
+     useEffect( () => {
+        const controller = new AbortController()
         setLoading(true)
-        fetch("/api/products")
+        fetch(`${API_BASE}/products`, { signal: controller.signal })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`)
@@ -21,6 +23,7 @@ export function useServerData() {
                 setError(null)
             })
             .catch(error => {
+                if (error.name === "AbortError") return
                 console.error("Error fetching products:", error)
                 setError(error.message)
                 setData([])
@@ -28,21 +31,22 @@ export function useServerData() {
             .finally(() => {
                 setLoading(false)
             })
+        return () => controller.abort()
     }, [])
 
     return { data, loading, error }
 }
 
-// Fetch single product by id
 export function useProduct(id) {
     const [product, setProduct] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
-    useEffect(() => {
+    useEffect( () => {
         if (!id) return
+        const controller = new AbortController()
         setLoading(true)
-        fetch(`/api/products/${id}`)
+        fetch(`${API_BASE}/product/${id}`, { signal: controller.signal })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`)
@@ -54,6 +58,7 @@ export function useProduct(id) {
                 setError(null)
             })
             .catch(error => {
+                if (error.name === "AbortError") return
                 console.error("Error fetching product:", error)
                 setError(error.message)
                 setProduct(null)
@@ -61,6 +66,7 @@ export function useProduct(id) {
             .finally(() => {
                 setLoading(false)
             })
+        return () => controller.abort()
     }, [id])
 
     return { product, loading, error }
