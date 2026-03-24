@@ -1,15 +1,20 @@
-import { useParams, Link } from "react-router-dom";
+import { general } from "../data/data";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 import Footer from "../pages/Footer";
-import { useServerData } from "../utils/ServerData";
+import { useProduct } from "../utils/ServerData";
 import CapitalizeFirstLetter from "../utils/CapitalizeFirstLetter";
-import fallbackImage from "../img/fallback.png";
 import { useState } from "react";
+import { useCart } from "../utils/CartContext";
 
 function ProductDetail() {
   const { id } = useParams();
-  const { data: serverData, loading, error } = useServerData();
+  const { product, loading, error } = useProduct(id);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   // loading & error states
   if (loading) {
@@ -35,9 +40,6 @@ function ProductDetail() {
       </div>
     );
   }
-
-  // Find the product by ID
-  const product = serverData.find((p) => p.id === parseInt(id));
 
   if (!product) {
     return (
@@ -65,12 +67,23 @@ function ProductDetail() {
   const productImages = Array.isArray(product.images)
     ? product.images
     : product.thumbnail
-    ? [product.thumbnail]
-    : [fallbackImage];
+      ? [product.thumbnail]
+      : [general.fallbackImage];
 
   const originalPrice =
     product.price + (product.price * product.discountPercentage) / 100;
   const savings = (product.price * product.discountPercentage) / 100;
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
+
+  const handleBuyNow = () => {
+    addToCart(product, quantity);
+    navigate("/cart");
+  };
 
   return (
     <div className="min-h-screen">
@@ -99,10 +112,10 @@ function ProductDetail() {
             {/* Main Image */}
             <div className="bg-white border border-border rounded-2xl overflow-hidden">
               <img
-                src={productImages[selectedImageIndex] || fallbackImage}
+                src={productImages[selectedImageIndex] || general.fallbackImage}
                 alt={product.title}
                 onError={(e) => {
-                  e.currentTarget.src = fallbackImage;
+                  e.currentTarget.src = general.fallbackImage;
                 }}
                 className="w-full h-96 object-contain p-4"
               />
@@ -115,17 +128,16 @@ function ProductDetail() {
                   <button
                     key={index}
                     onClick={() => setSelectedImageIndex(index)}
-                    className={`shrink-0 border-2 rounded-lg overflow-hidden ${
-                      selectedImageIndex === index
+                    className={`shrink-0 border-2 rounded-lg overflow-hidden ${selectedImageIndex === index
                         ? "border-primary"
                         : "border-border"
-                    }`}
+                      }`}
                   >
                     <img
-                      src={image || fallbackImage}
+                      src={image || general.fallbackImage}
                       alt={`${product.title} view ${index + 1}`}
                       onError={(e) => {
-                        e.currentTarget.src = fallbackImage;
+                        e.currentTarget.src = general.fallbackImage;
                       }}
                       className="w-20 h-20 object-contain p-1"
                     />
@@ -154,11 +166,10 @@ function ProductDetail() {
                 </div>
                 <span className="text-light">•</span>
                 <span
-                  className={`font-semibold ${
-                    product.availabilityStatus === "In Stock"
+                  className={`font-semibold ${product.availabilityStatus === "In Stock"
                       ? "text-green-600"
                       : "text-red-600"
-                  }`}
+                    }`}
                 >
                   {product.availabilityStatus}
                 </span>
@@ -245,12 +256,49 @@ function ProductDetail() {
               </div>
             )}
 
+            {/* Quantity Selector */}
+            <div className="flex items-center gap-4">
+              <p className="text-sm font-semibold text-heading">Quantity:</p>
+              <div className="flex items-center border border-border rounded-lg">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="px-3 py-2 hover:bg-gray-100 transition"
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  min="1"
+                  max={product.stock}
+                  value={quantity}
+                  onChange={(e) => setQuantity(Math.max(1, Math.min(product.stock, parseInt(e.target.value) || 1)))}
+                  className="w-16 text-center outline-none"
+                />
+                <button
+                  onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                  className="px-3 py-2 hover:bg-gray-100 transition"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
             {/* Action Buttons */}
             <div className="flex gap-4">
-              <button className="flex-1 bg-primary text-white font-semibold py-3 px-6 rounded-full hover:bg-primary/90 transition">
-                Add to Cart
+              <button
+                onClick={handleAddToCart}
+                className={`flex-1 font-semibold py-3 px-6 rounded-full transition ${
+                  added
+                    ? "bg-green-500 text-white"
+                    : "bg-primary text-white hover:bg-primary/90"
+                }`}
+              >
+                {added ? "Added to Cart!" : "Add to Cart"}
               </button>
-              <button className="flex-1 border-2 border-primary text-primary font-semibold py-3 px-6 rounded-full hover:bg-primary/5 transition">
+              <button
+                onClick={handleBuyNow}
+                className="flex-1 border-2 border-primary text-primary font-semibold py-3 px-6 rounded-full hover:bg-primary/5 transition"
+              >
                 Buy Now
               </button>
             </div>

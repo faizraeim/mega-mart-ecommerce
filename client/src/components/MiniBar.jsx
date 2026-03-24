@@ -5,7 +5,7 @@ function MiniBar(){
 return(
     <div className="bg-background">
         {/* welcome message on left */}
-    <div className=" text-text text-sm flex items-center justify-between mx-auto max-w-7xl py-2">
+    <div className=" text-text text-sm flex items-center justify-between mx-auto max-w-7xl py-2 px-4">
         <div className="flex text-text">
             <p>{miniBar.greeting}</p>
         </div>
