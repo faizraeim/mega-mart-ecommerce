@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react"
 
+const API_BASE = import.meta.env.VITE_API_URL || "/api"
+
 function APIs(){
     const [serverData, setServerData] = useState([])
 
     useEffect(() => {
-        fetch("/api/products")
+        fetch(`${API_BASE}/products`)
             .then(response => response.json())
             .then(data => {
                 // Handle both object with products property and direct array

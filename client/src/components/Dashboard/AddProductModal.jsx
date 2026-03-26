@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
+const API_BASE = import.meta.env.VITE_API_URL || "/api";
+
 function AddProductModal({
   onClose,
   onCreated,
@@ -51,8 +53,8 @@ function AddProductModal({
 
     const isEdit = mode === "edit";
     const url = isEdit
-      ? `/api/update/product/${formData.id || formData._id}`
-      : "/api/product";
+      ? `${API_BASE}/update/product/${formData.id || formData._id}`
+      : `${API_BASE}/product`;
     const method = isEdit ? "PUT" : "POST";
 
     try {
