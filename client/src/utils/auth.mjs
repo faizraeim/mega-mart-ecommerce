@@ -1,4 +1,4 @@
-const API_URL = '/api';
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 const auth = {
   register: async (userData) => {
@@ -74,7 +74,8 @@ const auth = {
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     }
-    const response = await fetch(url, { ...options, headers });
+    const requestUrl = url.startsWith("/") ? `${API_URL}${url}` : url;
+    const response = await fetch(requestUrl, { ...options, headers });
     
     if (response.status === 401) {
       const data = await response.json().catch(() => ({}));

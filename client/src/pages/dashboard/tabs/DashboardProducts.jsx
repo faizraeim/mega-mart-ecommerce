@@ -9,6 +9,8 @@ import { AiFillStar } from "react-icons/ai";
 import DetailModal from "../../../components/Dashboard/DetailModal";
 import AddProductModal from "../../../components/Dashboard/AddProductModal";
 
+const API_BASE = import.meta.env.VITE_API_URL || "/api";
+
 function DashboardProducts() {
   // get all the products from the server with custom hook
   const { data: serverData, loading, error } = useServerData();
@@ -75,7 +77,7 @@ function DashboardProducts() {
     if (!window.confirm(`Delete "${product.title}"?`)) return;
 
     try {
-      const response = await fetch(`/api/delete/product/${productId}`, {
+      const response = await fetch(`${API_BASE}/delete/product/${productId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

@@ -15,7 +15,7 @@ function DashboardUser() {
 
   const fetchUsers = async () => {
     try {
-      const response = await auth.authenticatedFetch("/api/users");
+      const response = await auth.authenticatedFetch("/users");
       if (!response.ok) throw new Error("Failed to fetch users");
       const data = await response.json();
       setUsers(data.users);
@@ -33,7 +33,7 @@ function DashboardUser() {
   const handleDelete = async () => {
     if (!deleteModal.user) return;
     try {
-      const response = await auth.authenticatedFetch(`/api/users/${deleteModal.user._id}`, {
+      const response = await auth.authenticatedFetch(`/users/${deleteModal.user._id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete user");
